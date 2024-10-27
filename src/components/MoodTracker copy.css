@@ -1,0 +1,77 @@
+.mood-tracker {
+    max-width: 400px;
+    margin: auto;
+    padding: 2rem;
+    background-color: #f8f0ff;
+    /* Soft pink background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.privacy-header {
+    text-align: center;
+    color: #4a148c;
+    /* Dark pink text */
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.mood-dropdown,
+.reason-input,
+.submit-button {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 5px;
+    border: 1px solid #c0c0c0;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s ease-in-out;
+}
+
+.mood-dropdown:focus,
+.reason-input:focus {
+    border-color: #e91e63;
+    /* Pink focus */
+}
+
+.one-liner p {
+    font-size: 0.9rem;
+    color: #5c5c5c;
+    font-style: italic;
+    margin-top: 0.5rem;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.journal-option {
+    display: flex;
+    align-items: center;
+}
+
+.journal-option label {
+    margin-left: 0.5rem;
+}
+
+.journal-note {
+    font-size: 0.85rem;
+    color: #6a1b9a;
+    margin-top: 0.5rem;
+}
+
+.submit-button {
+    background-color: #e91e63;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #d81b60;
+}

@@ -1,22 +1,19 @@
-// MoodTracker.js
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Change to useNavigate
 import moodsData from '../assets/moods.json';
-import { MoodContext } from '../context/MoodContext';
-import { useMood } from '../context/MoodContext'
 import './MoodTracker.css';
 
 const MoodTracker = () => {
-    const navigate = useNavigate();
-    const { setSelectedMood, setMoodID } = useMood();
-    const [selectedMood, setMood] = useState('');
+    const navigate = useNavigate(); // Initialize useNavigate
+    const [selectedMood, setSelectedMood] = useState('');
     const [reason, setReason] = useState('');
     const [showJournalPrompt, setShowJournalPrompt] = useState(false);
     const [oneLiner, setOneLiner] = useState('');
 
     useEffect(() => {
         if (selectedMood) {
-            const mood = moodsData.find(m => m.id === selectedMood);
+            const mood = moodsData.find(mood => mood.id === selectedMood);
             if (mood) {
                 setOneLiner(mood.description);
             }
@@ -26,12 +23,8 @@ const MoodTracker = () => {
     }, [selectedMood]);
 
     const handleMoodChange = (e) => {
-        const newMood = e.target.value; // Get the new mood directly
-        setMood(newMood);
-        console.log("target value: ", e.target.value);
-
-        console.log("From dropdown - mood : ", selectedMood);
-        setShowJournalPrompt(false);
+        setSelectedMood(e.target.value);
+        setShowJournalPrompt(false); // Reset journal prompt when mood changes
     };
 
     const handleCheckboxChange = () => {
@@ -40,17 +33,28 @@ const MoodTracker = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("From Submit - mood : ", selectedMood);
-
         const currentDate = new Date();
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const moodID = `${selectedMood}_${currentDate.toLocaleDateString('en-GB').replace(/\//g, '')}_${currentDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }).replace(/:/g, '')}`;
 
-        setSelectedMood(selectedMood);
-        setMoodID(moodID);
+        localStorage.setItem('selectedMood', selectedMood);  // Store selected mood
+        localStorage.setItem('moodID', moodID);  // Store moodID
+
+        const submittedData = {
+            moodID,
+            selectedMood,
+            reason,
+            date: currentDate.toLocaleDateString(),
+            time: currentDate.toLocaleTimeString(),
+            timezone
+        };
+
+        console.log(submittedData); // This will later be used to save data
 
         if (showJournalPrompt) {
-            navigate('/journals/new', { state: { selectedMood } });
+            navigate(`/journals/new`); // Redirect to YourJournal with moodID
         } else {
+            // Handle case when journal is not created, maybe alert user
             alert("Mood submitted without a journal.");
         }
     };
@@ -61,8 +65,10 @@ const MoodTracker = () => {
                 <label htmlFor="mood">Select your mood:</label>
                 <select id="mood" value={selectedMood} onChange={handleMoodChange}>
                     <option value="">-- Select Mood --</option>
-                    {moodsData.map(mood => (
-                        <option key={mood.id} value={mood.id}>{mood.name}</option>
+                    {moodsData.map((mood) => (
+                        <option key={mood.id} value={mood.id}>
+                            {mood.name}
+                        </option>
                     ))}
                 </select>
 
@@ -86,6 +92,10 @@ const MoodTracker = () => {
                 </label>
 
                 <button type="submit">Submit Mood</button>
+
+                <div className="privacy-notice">
+                    All your entries are completely private and will not be shared with anyone.
+                </div>
             </form>
         </div>
     );

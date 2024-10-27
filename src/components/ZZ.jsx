@@ -1,14 +1,12 @@
-// MoodTracker.js
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import moodsData from '../assets/moods.json';
 import { MoodContext } from '../context/MoodContext';
-import { useMood } from '../context/MoodContext'
 import './MoodTracker.css';
 
 const MoodTracker = () => {
     const navigate = useNavigate();
-    const { setSelectedMood, setMoodID } = useMood();
+    const { setSelectedMood, setMoodID } = useContext(MoodContext);
     const [selectedMood, setMood] = useState('');
     const [reason, setReason] = useState('');
     const [showJournalPrompt, setShowJournalPrompt] = useState(false);
@@ -28,9 +26,7 @@ const MoodTracker = () => {
     const handleMoodChange = (e) => {
         const newMood = e.target.value; // Get the new mood directly
         setMood(newMood);
-        console.log("target value: ", e.target.value);
-
-        console.log("From dropdown - mood : ", selectedMood);
+        console.log("From dropdown - mood : ", newMood); // Log the new mood
         setShowJournalPrompt(false);
     };
 
@@ -40,7 +36,7 @@ const MoodTracker = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("From Submit - mood : ", selectedMood);
+        console.log("From Submit - mood : ", selectedMood); // This will show the mood before submission
 
         const currentDate = new Date();
         const moodID = `${selectedMood}_${currentDate.toLocaleDateString('en-GB').replace(/\//g, '')}_${currentDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }).replace(/:/g, '')}`;

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-ro
 import { AuthContext } from './context/AuthContext';
 import Login from './components/Login';
 import MoodTracker from './components/MoodTracker';
-import Journal from './components/Journal';
+import Journal from './components/Journals';
 import Resources from './components/Resources';
 
 const Home2 = () => {

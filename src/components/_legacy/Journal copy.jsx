@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { databases } from '../appwrite/config';
-import { AuthContext } from '../context/AuthContext';
+import { databases } from '../../appwrite/config';
+import { AuthContext } from '../../context/AuthContext';
 
 const Journal = () => {
     const [entry, setEntry] = useState('');
